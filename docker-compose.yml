@@ -1,0 +1,23 @@
+version: "3.2"
+services:
+  sd:
+    build: .
+    ports:
+      - 7860:7860
+    volumes:
+      - ./models:/root/stable-diffusion-webui/models
+      - ./outputs:/root/stable-diffusion-webui/outputs
+      - ./extensions:/root/stable-diffusion-webui/extensions
+    command:
+      - --listen
+      - --xformers
+      - --no-hashing
+      - --disable-nan-check
+      - --enable-insecure-extension-access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
